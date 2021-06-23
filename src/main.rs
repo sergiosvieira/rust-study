@@ -34,6 +34,6 @@ fn main() {
     const N:i32 = 5;
     println!("N:{}", N);
     //const M:i32 = _m; // error: attempt to use a non-constant value in a constant
-    let _n = N;
-    println!("_n:{}", _n);// valid: you can use a constant value in a immutable variable
+    let _n = N;// valid: you can use a constant value in a immutable variable
+    println!("_n:{}", _n);
 }
