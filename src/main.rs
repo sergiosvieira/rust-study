@@ -198,4 +198,79 @@ fn main() {
     // Expression don't include ending semicolon symbol
     // If you do that, you will transform the expression in a statement
     println!("{}", k);
+    // ***** CONTROL FLOW *****
+    // if expression
+    // With "if expression" you can choose which instruction will be used considering
+    // a logical expression
+    let number = 5;
+    /*
+    if (number < 0) { // warning: unnecessary parentheses around `if` condition
+    }
+    */
+    //if (number < 0) println!("heelooo"); // error: expected `{`, found `println`
+    if number < 0 {
+        println!("{} is lower than 0", number);
+    } else if number > 0 {
+        println!("{} is higher than 0", number);
+    } else {
+        println!("{} is equal to 0", number);
+    }
+    // like other programming languages one can use if else, else if expressions
+    // You can use if to initialize an immutable and mutable variables; and constants
+    let _positive = if number < 0 { false } else { true };
+    let mut _negative = if number < 0 { true } else { false };
+    // but it's allowed use only constants in if expression
+    //const ZERO:bool = if number == 0 { true } else { false };// error: attempt to use a non-constant value in a constant
+    const _NUMBER:i8 = 5;
+    const _ZERO:bool = if _NUMBER == 0 { true } else { false };
+    //if number { true }// expected `bool`, found integer
+    //if bool::from(number) { true } // error:  mismatched types, expected `bool`, found integer
+    //let k = if number < 0 { false } else { "string" }; // error: `if` and `else` have incompatible types
+    // ===== Repetition with Loops
+    // In Rust, it have three kinds of loop: loop, while and for
+    let mut k = 0;
+    loop {
+        println!("{}", k);
+        if k > 10 { break; } // like other programming languages rust have the keywords break and continue
+        k = k + 1;
+
+    }
+    //let expr = loop { "string" };// error: mismatched types, expected `()`, found `&str`
+    //let expr = loop { "string"; };// error: warning: unreachable statement, any code following
+    // this expression is unreachable 
+    let expr = loop { break "string" };// yes, you can do that
+    // loop is a expression, when you use the break keyword it's look like a return keyword
+    println!("{}", expr);
+    let mut aux = 2;
+    let expr = loop {aux *= 2; if aux > 1024 { break aux }};// hehehheheheheheheh
+    println!("{}", expr);
+    // ===== While
+    // It works like a loop, but you must check a logical expression before execute the loop
+    let mut counter = 0;
+    while counter < 4096 {
+        //println!("{}", counter += 1); // error: `()` doesn't implement `std::fmt::Display`
+        // counter += 1 is a statement
+        println!("{}", { counter + 1 });
+        counter += 1;
+    }
+    // ===== For
+    /*
+    for (let mut i = 0; i < 10; i += i) { // Sorry, you can't do that :)
+    }
+    */
+    for i in 1..10 { // 1..10 - i start with 1 and finish with 9
+        print!("i:{} ", i);
+    }
+    println!();
+    // but if you want iterate until the last value use the sintax 1..=10
+    for j in 1..=10 {
+        print!("j:{} ", j);
+    }
+    println!();
+    // ===== Looping Throught a Collection with for
+    let ar = [1; 10];
+    for i in ar {
+        print!("i->{} ", i);
+    }
+    println!();
 }
