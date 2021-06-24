@@ -1,3 +1,5 @@
+use std::io::Bytes;
+
 fn main() {
     // ***** VARIABLES AND MUTABILITY *****
     //1. by default variables are immutable
@@ -75,6 +77,28 @@ fn main() {
     let r = "42".parse::<i32>().unwrap();
     println!("r:{}", r);
     // if you get an invalid integer, that will generate a conversion error
-    let r = "value".parse::<i32>().unwrap();// error: ParseIntError { kind: InvalidDigit }'
+    //let r = "value".parse::<i32>().unwrap();// error: ParseIntError { kind: InvalidDigit }'
     println!("r:{}", r);
+    // ***** COMPOUND TYPES *****
+    // ===== Tuples
+    // The tuple can't shrink or grow and can group different or equal types of variables
+    let tuple = (1, 1., true, "string");
+    println!("{:?}", tuple);
+    // to get a specific value you must provide the index position of value in tuple
+    println!("{}", tuple.3);// get the element on position 3 ("string")
+    // println!("{}", tuple.4); // error:  no field `4` on type `({integer}, {float}, bool, &str)`
+    // you can break a single tuple em parts
+    let (x, y, z, w) = tuple;
+    println!("x:{} y:{} z:{} w:{}", x, y, z, w);
+    // ===== Arrays
+    // In rust arrays always have fixed length and it stores on same variable types
+    let array: [i32; 4] = [1, 2, 3, 4];// the type of array is defined by [type; number of elements]
+    println!("{:?}", array);
+    let rarray = [1;50]; // it will create an array with 50 repeated values equals to 1
+    println!("{:?}", rarray);
+    // To get a specific value from array, you must use the [] syntax
+    println!("value at position 2 is equal to {}", array[2]);
+    // If you try to get a value from array using an invalid index, Rust will immediatly halt the
+    // code execution
+    //println!("{}", array[4]); // error: index out of bounds: the length is 4 but the index is 4
 }
