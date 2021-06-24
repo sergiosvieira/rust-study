@@ -1,6 +1,7 @@
 use std::io::Bytes;
 
 fn main() {
+    // Deu ruim! Rust
     // ***** VARIABLES AND MUTABILITY *****
     //1. by default variables are immutable
     // variable can be infered by value or by type
@@ -28,7 +29,7 @@ fn main() {
     _m = 10;
     println!("_m:{}", _m);
     // ***** CONSTANTS *****
-    // 10. constants are aways immutables
+    // 10. constants are always immutables
     // const mut n = 10; // <--11. error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`,
     //                             or an operator. Cannot be mutable
     // const n = 10; //<--12. error: When you use const keyword you must provide a type for the 
@@ -73,7 +74,7 @@ fn main() {
     // Finally, you can do the conversion directly
     let r: i32 = "42".parse().unwrap();
     println!("r:{}", r);
-    // you can use the turbofish sintax
+    // you can use the turbofish sintax ::<>
     let r = "42".parse::<i32>().unwrap();
     println!("r:{}", r);
     // if you get an invalid integer, that will generate a conversion error
@@ -87,11 +88,11 @@ fn main() {
     // to get a specific value you must provide the index position of value in tuple
     println!("{}", tuple.3);// get the element on position 3 ("string")
     // println!("{}", tuple.4); // error:  no field `4` on type `({integer}, {float}, bool, &str)`
-    // you can break a single tuple em parts
+    // you can break a single tuple in parts
     let (x, y, z, w) = tuple;
     println!("x:{} y:{} z:{} w:{}", x, y, z, w);
     // ===== Arrays
-    // In rust arrays always have fixed length and it stores on same variable types
+    // In rust arrays always have fixed length and it stores always same variable types
     let array: [i32; 4] = [1, 2, 3, 4];// the type of array is defined by [type; number of elements]
     println!("{:?}", array);
     let rarray = [1;50]; // it will create an array with 50 repeated values equals to 1
@@ -101,4 +102,20 @@ fn main() {
     // If you try to get a value from array using an invalid index, Rust will immediatly halt the
     // code execution
     //println!("{}", array[4]); // error: index out of bounds: the length is 4 but the index is 4
+    // ***** FUNCTIONS *****
+    // you must put the keyword "fn" before the name of your function
+    /*
+    fn fooBar() { // help: convert the identifier to snake case:
+
+    }
+    */
+    /*
+    fn foo_bar() { // warning: function is never used: `foo_bar`
+
+    }
+    */
+    fn foo_bar() {
+        "foo";
+    }
+    println!(foo_bar());//
 }
