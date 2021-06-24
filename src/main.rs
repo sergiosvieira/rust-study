@@ -1,5 +1,3 @@
-use std::io::Bytes;
-
 fn main() {
     // Deu ruim! Rust
     // ***** VARIABLES AND MUTABILITY *****
@@ -106,16 +104,98 @@ fn main() {
     // you must put the keyword "fn" before the name of your function
     /*
     fn fooBar() { // help: convert the identifier to snake case:
+        "foobar"; // the keyword return is optional
+    }
+    */
+    /*
+    // if you don't use the function, Rust will generate a warning message
+    fn foo_bar() { // warning: function is never used: `foo_bar`
+        "foorbar";
+    }
+    */
+    fn foo_bar() {
+        "foobar";
+    }
+    //println!(foo_bar());// error: format argument must be a string literal
+    //println!("{}", foo_bar()); // error:  `()` doesn't implement `std::fmt::Display`
+    // foo_bar() don't return the string, but it returns a empty tuple ()
+    println!("{:?}", foo_bar());
+    // you can specify the return of the function using ->
+    fn foo() -> u8 {
+        42
+    }
+    println!("{}", foo());
+    /*
+    fn spam() -> u8 {
+        325 // error:  literal out of range for `u8`
+    }
+    */
+    // ok, but if you want create a function that returns a string
+    /*
+    fn foo_bar_() -> &str{ // error: missing lifetime specifier
+        "foobar"
+    }
+    */
+    // let's try again
+    /*
+    fn foo_bar_() ->&'static str { // error: mismatched types, expected `&str`, found `()`
+        "foobar";// if you put semicolon the function will return a empty tuple ()
+    }
+    */
+    // Finally!!!
+    fn foo_bar_() ->&'static str {
+        "foobar"
+    }
+    println!("{}", foo_bar_());
+    // You can do that using the keyword return, with or without semicolon
+    fn bar() ->&'static str {
+        return "bar" // works!!
+    }
+    println!("{}", bar());
+    // ===== Function Parameters
+    // A function can have none or many function parameters
+    // the function parameter syntax is var_name1: var_type1, var_name2: var_type2, ...
+    /*
+    fn sum(x, y) {// error: expected one of `:`, `@`, or `|`, found `)`
 
     }
     */
     /*
-    fn foo_bar() { // warning: function is never used: `foo_bar`
-
+    fn sum(x:i32, y:i16) {
+        x + y // error: mismatched types, y <- expected `i32`, found `i16`
     }
     */
-    fn foo_bar() {
-        "foo";
+    /*
+    fn sum(x:i32, y:i32) {
+        x + y// error:  mismatched types, help: try adding a return type: `-> i32`
     }
-    println!(foo_bar());//
+    */
+    /*
+    fn sum(x:i32, y:i32) {
+        return x + y // error:  mismatched types, help: try adding a return type: `-> i32`
+    }
+    */
+    // Finally, the correct syntax is
+    fn sum(x:i32, y:i32) -> i32 {
+        x + y
+    }
+    println!("2 + 2 = {}", sum(2, 2));
+    // But if you need to sum i32 with i16
+    fn sum_(x:i32, y:i16) -> i32{
+        x + i32::from(y)
+    }
+    println!("4 + 4 = {}", sum_(4, 4));
+    // ===== Function Bodies Contain Statements and Expressions
+    // Statements performs some instructions and don't return a value
+    // Expression return a value
+    let k = 42; // it is a statement
+    //let k = (let k = 52); // error: expected expression, found statement (`let`)
+    // In Rust, 1 + 1, calling a function, calling a macro, {} are expressions
+    let k = {// this return an expression
+        let k = 1;
+        k + 10 // remember, if I put the semicolon here, it will returns an empty tuple ()
+    };
+    // Expression don't include ending semicolon symbol
+    // If you do that, you will transform the expression in a statement
+    println!("{}", k);
 }
