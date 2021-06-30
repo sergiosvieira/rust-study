@@ -1,5 +1,6 @@
 fn main() {
-    // Deu ruim! Rust
+    // Deu ruim! Rust para programadores
+    // Brain compiler! Rust for programmers
     // ***** VARIABLES AND MUTABILITY *****
     //1. by default variables are immutable
     // variable can be infered by value or by type
@@ -11,6 +12,7 @@ fn main() {
     //                               Binary 0b1011_0000
     //                               Byte (u8 only) b'A'
     // by default integer is i32
+    // by default, "primitive" data types are stored in the stack.
     //2. let i; <-- error: consider giving `i` a type
     let k: i32; //3. warning (unused variable)
     let _w: i32; //4. if you put _ (underscore) before the variable name, it means,
@@ -26,6 +28,9 @@ fn main() {
     // println!("m:{}", _m); <--10. error: use of possibly-uninitialized `_m`
     _m = 10;
     println!("_m:{}", _m);
+    // in Rust, all "primitive" data type have related methods, so, they don't 
+    // are really primitive like other languages, like c++ or c.
+    println!("{}", _m.is_positive());// numbers have methods!!!
     // ***** CONSTANTS *****
     // 10. constants are always immutables
     // const mut n = 10; // <--11. error: expected one of `!`, `.`, `::`, `;`, `?`, `{`, `}`,
@@ -269,8 +274,69 @@ fn main() {
     println!();
     // ===== Looping Throught a Collection with for
     let ar = [1; 10];
-    for i in ar {
+    for i in ar { // "in ar": in previous versions of Rust you can't do this,
+                      // you had to do "in ar.iter()"
         print!("i->{} ", i);
     }
     println!();
+    // there is a method to support you create reverse lists
+    //for i in ar.reverse() { // remember! you can't reverse a immutable variable!
+    //let mut rev = ar.reverse();// this return a statement (empty tuple) not a expression    
+    //for i in rev {// error: `()` is not an iterator 
+    let mut rev = [2, 4, 8, 16, 32];
+    rev.reverse();
+    for i in rev {
+        print!("{} ", i);
+    }
+    // output: 32 16 8 4 2
+    // and about a range?
+    let r = 1..10;
+    //for i in r.reverse() { // error: no method named `reverse` found for struct `std::ops::Range<{integer}>` in the current scope
+    for i in r.rev() {// there are different methos to create reverse iterators
+        print!("{} ", i);
+    }
+    // output: 9 8 7 6 5 4 3 2 1
+    // ***** UNDERSTANDING OWNERSHIP *****
+    // The way that memory is managed in Rust is through 
+    // a system of ownership with a set of rules that the compiler checks at compile 
+    // time.
+    // The rules of ownership are:
+    // 1. Each value in Rust has its owner (variable).
+    // 2. There can only be one owner at a time.
+    // 3. When the owner goes out of scope, the value will be dropped.
+    // ===== What is variable scope? =====
+    // {} <- this is a Rust variable scope, and a variable only survive inside a scope
+    /*
+    {
+        let s = "string";
+    }
+    println!("{}", s); // error: cannot find value `s` in this scope
+    */
+    {
+        //println!("{}", s); // error: cannot find value `s` in this scope
+        let s = "string";// ok, now the variable exists in this scope
+        println!("{}", s);
+    }
+    // output: string
+    // ===== The String Type
+    // unlike "primitive" data type, the String type (capital S) is stored in heap, so, Rust have
+    // to concern about memory releasing of this String.
+    // literal strings (lower s) are immutable, so, in Rust, strings aren't suitable for all
+    // situations.
+    // For example, if you need to get a value from default input, you must use
+    // a String
+    //let str = String::from("Hello Rust programmers!");
+    //println!("{}", str);
+    // output: Hello Rust programmers!
+    //str.push_str("!!");
+    let mut str = "Hello Rust programmers from the stack!";// warning: variable does not need to be mutable
+    // str = str + "hello";// there is no way to concat literal strings and return a literal string without use the type String
+    // there is no method to change the content of this variable
+    // so there is no sense to make a string (lower s) as mutable
+    println!("{}", str);
+    // output: Hello Rust programmers from the stack!
+    let str = String::from(str);
+    let str = str.replace("stack","heap");
+    println!("{}", str);
+    // output: Hello Rust programmers from the stack!
 }
