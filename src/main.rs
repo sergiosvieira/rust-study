@@ -355,4 +355,27 @@ fn main() {
     // The types that implements by default the copy traits are: Integers (i8, i16 ..),
     // Floats, Booleans, char and tuple of types that implements the copy traits too.
     // ===== Ownership and Functions
+    // The rules are the same to assignment when you pass a variable to a function
+    move_(str3);
+    //println!("{}", str3);// error: borrow of moved value: `str3`
+    //move_(str3); error: expected `&String`, found struct `String`
+/*
+// if you include the &, this doesn't work, it is not like C/C++ language :(
+fn move_(str: &String) {
+    println!("{}", str);
+}
+move_(&str3);// error: borrow of moved value: `str3`move_
+*/
+    copy_(x);// x stores in the stack, x implements copy traits
+    println!("{}", x);// no problem!!
+    
+}
+
+
+fn move_(str: String) {
+    println!("{}", str);
+}
+
+fn copy_(x: i32) {
+    println!("{}", x);
 }
