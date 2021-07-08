@@ -339,4 +339,20 @@ fn main() {
     let str = str.replace("stack","heap");
     println!("{}", str);
     // output: Hello Rust programmers from the stack!
+    let str2 = str; // the ownsership is transfered from str to str2
+    //println!("{}", str);// error: borrow of moved value: `str`
+    // str doesn't point to valid memory address anymore, it is invalidated!!!
+    println!("{}", str2);
+    // if you want copy the the content of str2 from stack and heap you can use
+    // the method clone
+    let str3 = str2.clone();
+    println!("{}", str3);
+    // In Rust some types implements by default a techinique called copy traits
+    // We will talk more about traits later, but when you have a type with values
+    // stored only in the stack, the Rust language implements automatically
+    // the copy trait, so, there is no problem when you do something like this:
+    // let x = 1; let y = x;
+    // The types that implements by default the copy traits are: Integers (i8, i16 ..),
+    // Floats, Booleans, char and tuple of types that implements the copy traits too.
+    // ===== Ownership and Functions
 }
