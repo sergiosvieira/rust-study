@@ -345,7 +345,7 @@ fn main() {
     println!("{}", str2);
     // if you want copy the the content of str2 from stack and heap you can use
     // the method clone
-    let str3 = str2.clone();
+    let mut str3 = str2.clone();
     println!("{}", str3);
     // In Rust some types implements by default a techinique called copy traits
     // We will talk more about traits later, but when you have a type with values
@@ -359,18 +359,74 @@ fn main() {
     move_(str3);
     //println!("{}", str3);// error: borrow of moved value: `str3`
     //move_(str3); error: expected `&String`, found struct `String`
-/*
-// if you include the &, this doesn't work, it is not like C/C++ language :(
-fn move_(str: &String) {
-    println!("{}", str);
-}
-move_(&str3);// error: borrow of moved value: `str3`move_
-*/
     copy_(x);// x stores in the stack, x implements copy traits
     println!("{}", x);// no problem!!
-    
+    //==== Return Values and Scope
+    // When your function returns a value, it can move the ownership of the variable
+    let mut str4 = String::from("Hello!!!");
+    str4 = transfer(str4);
+    println!("{}", str4);
+    // It can be very tedious if you pass many variables
+    // Rust deals this problem with references
+    //===== References and Borrowing
+    // if you can't move the ownership of a variable to the function parameter
+    // you must use references &
+    reference(&str4);
+    println!("{}", str4);// now, str4 remain with the ownership of the memory address
+/*
+you can't chage the value of a variable passed as reference
+fn change_reference_value(str: &String) {
+    str.push_str("crash");// error[E0596]: cannot borrow `*str` as mutable, as it is behind a `&` reference
+}
+*/
+// But you can change the parameter using mutable references :)
+    mutable_reference(&mut str4);// the 
+    reference(&str4);
+// and about primitive types?
+/*
+    let k = 1;
+    increment(&mut k);// cannot borrow `k` as mutable, as it is not declared as mutable
+*/
+    let mut k = 1;
+    increment(&mut k);
+    println!("increment:{}", k);
+// but to prevents memory leak, you can't share mutable references :)
+    let y = &mut k;// this is same as let y:&mut i32 = &mut k;
+    //k = 3;// error: cannot assign to `k` because it is borrowed
+    //hahahahha, you can't change the value of k after create a mutable reference to k
+    //let z = &mut k;// error:: cannot borrow `k` as mutable more than once at a time
+    println!("k->y:{}", y);
+    let a:&mut i32 = &mut 42;// yes.. this is valid!!!
+    println!("a:{}", a);
+    // but if you want multiples references, you can create a new scope
+    {
+        let z = &mut k;// now, this is valid!!
+        println!("z:{}", z);
+    }
+    // and about immutable references, can you create more than one?
+    let k = 42;
+    let y = &k;// no problem
+    let z = &k;// no problem
+    //let x = &mut k; // error: cannot borrow `k` as mutable, as it is not declared as mutable
+
 }
 
+fn increment(x: &mut i32) {
+    *x = *x + 1;
+}
+
+fn mutable_reference(str: &mut String) {
+    str.push_str("references");
+}
+
+fn reference(str: &String) {
+    println!("reference:{}", str);
+}
+
+fn transfer(str: String) -> String {
+    println!("transfer:{}", str);
+    str
+}
 
 fn move_(str: String) {
     println!("{}", str);
