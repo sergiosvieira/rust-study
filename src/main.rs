@@ -1,3 +1,9 @@
+use std::any::type_name;
+
+fn type_of<T>(_: T) -> &'static str {
+    type_name::<T>()
+}
+
 fn main() {
     // Deu ruim! Rust para programadores
     // Brain compiler! Rust for programmers
@@ -238,7 +244,6 @@ fn main() {
         println!("{}", k);
         if k > 10 { break; } // like other programming languages rust have the keywords break and continue
         k = k + 1;
-
     }
     //let expr = loop { "string" };// error: mismatched types, expected `()`, found `&str`
     //let expr = loop { "string"; };// error: warning: unreachable statement, any code following
@@ -408,11 +413,41 @@ fn change_reference_value(str: &String) {
     let y = &k;// no problem
     let z = &k;// no problem
     //let x = &mut k; // error: cannot borrow `k` as mutable, as it is not declared as mutable
-
+    //===== Dangling References
+    // There is no dangling references in Rust, period! hehehhehe
+    /*
+    fn create_dangling_reference() -> &String{ // error: missing lifetime specifier
+        &String::from("Dangling")
+    }
+    let d = create_dangling_reference();
+    */
+    // But you can create a simple String
+    fn create_string() -> String {
+        String::from("Simple String!")
+    }
+    let simple_str = create_string();
+    println!("{}", simple_str);
+    //===== The Slice Type
+    // In Rust there are a way to get slices of a string easily
+    // the first index start with zero and the last specify the last
+    // position - 1
+    let m = String::from("Hello World!");
+    //println!("1:{} 2:{}", m[0..5], m[6..12]);// error[E0277]: the size for values of type `str` cannot be known at compilation time
+    println!("hello:{} world:{}", &m[0..5], &m[6..12]);
+    // by default, the first value is zero when it's not specified
+    println!("hello:{}", &m[..5]);
+    // by default, the last value is the length of the string when
+    // it's not specified
+    println!("world:{}", &m[6..]);
+    // you don't need specify both values
+    println!("world:{}", &m[..]);// output: Hello World!
+    // you can get a slice of an array too
+    let array = [1, 2, 3, 4, 5, 6];
+    println!("{:?}", &array[0..2]);
 }
 
 fn increment(x: &mut i32) {
-    *x = *x + 1;
+    *x = *x + 1;// C/C++ dereference like
 }
 
 fn mutable_reference(str: &mut String) {
